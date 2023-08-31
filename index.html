@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Downloader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(https://media.istockphoto.com/id/1170804921/photo/turtle-closeup-with-school-of-fish.jpg?s=2048x2048&w=is&k=20&c=PKXN5_xphcugikirRdSqWDsBMsTX5Q6j-LaCSsgVGZY=); /* Specify your background image URL here */
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 18px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        img {
+            max-width: 100%;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Thumbnail Downloader</h1>
+        <label for="videoUrl">Enter YouTube Video URL:</label>
+        <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+        <button id="downloadButton">Download Thumbnail</button>
+        <img id="thumbnail" alt="YouTube Thumbnail" style="display: none;">
+        <p class="error-message" id="errorMessage" style="display: none;"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const videoUrlInput = document.getElementById('videoUrl');
+            const downloadButton = document.getElementById('downloadButton');
+            const thumbnailImg = document.getElementById('thumbnail');
+            const errorMessage = document.getElementById('errorMessage');
+
+            downloadButton.addEventListener('click', () => {
+                const videoUrl = videoUrlInput.value;
+                const videoId = extractVideoId(videoUrl);
+
+                if (videoId) {
+                    const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+                    thumbnailImg.src = thumbnailUrl;
+                    thumbnailImg.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Invalid YouTube Video URL. Please enter a valid URL.';
+                }
+            });
+
+            // Function to extract video ID from YouTube URL
+            function extractVideoId(url) {
+                const videoIdRegex = /v=([A-Za-z0-9_\-]+)/;
+                const match = url.match(videoIdRegex);
+                return match ? match[1] : null;
+            }
+        });
+    </script>
+</body>
+</html>
